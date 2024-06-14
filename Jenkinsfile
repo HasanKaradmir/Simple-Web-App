@@ -19,16 +19,16 @@ pipeline {
                 git changelog: false, credentialsId: 'github_cred', poll: false, url: 'https://github.com/HasanKaradmir/Simple-Web-App.git'
             }
         }
-        stage('Build & Push Docker Image') {
+        stage('Docker Build') {
             steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_PASS) {
-                        docker_image = docker.build("${IMAGE_NAME}")
-                    }
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_PASS) {
-                        docker_image.push("${IMAGE_TAG}")
-                        docker_image.push('latest')
-                    }
+                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'passwordVariable', usernameVariable: 'usernameVariable')]) {
+                    sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
+                    sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
                 }
             }
         }
