@@ -17,4 +17,4 @@ spec:
         image: hasankarademir/simple-web-app:latest
         ports:
           - containerPort: 8000
-        imagePullPolicy: always
+        imagePullPolicy: Always
