@@ -10,6 +10,6 @@ spec:
   - port: 80
     targetPort: 8000
     protocol: TCP
-    nodePort: 30006
+    nodePort: 30007
   selector:
     app: flask
