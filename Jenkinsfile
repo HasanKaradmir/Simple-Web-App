@@ -21,7 +21,8 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} -f ./build/Dockerfile ."
+                sh "docker build -t ${IMAGE_NAME}:latest -f ./build/Dockerfile ."
             }
         }
         stage('Push Docker Image') {
@@ -29,6 +30,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'passwordVariable', usernameVariable: 'usernameVariable')]) {
                     sh "echo ${passwordVariable} | docker login -u ${usernameVariable} --password-stdin"
                     sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker push ${IMAGE_NAME}:latest"
                 }
             }
         }

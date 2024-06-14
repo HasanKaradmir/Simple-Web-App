@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: simple-webapp
+        image: hasankarademir/simple-web-app:latest
+        ports:
+          - containerPort: 80
+        imagePullPolicy: IfNotPresent
