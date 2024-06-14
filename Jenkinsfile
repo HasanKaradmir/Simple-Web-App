@@ -19,9 +19,16 @@ pipeline {
                 git changelog: false, credentialsId: 'github_cred', poll: false, url: 'https://github.com/HasanKaradmir/Simple-Web-App.git'
             }
         }
-        stage('Docker Build') {
+        stage('Build & Push Docker Image) {
             steps {
-                docker build . --tag ${IMAGE_NAME}:${IMAGE_TAG}
+                docker.withRegistry('',DOCKER_PASS) {
+                    docker_image = docker.build "${IMAGE_NAME}"
+                }
+
+                docker.withRegistry('',DOCKER_PASS) {
+                    docker_image.push("${IMAGE_TAG}")
+                    docker_image.push('latest')
+                }
             }
         }
     }
