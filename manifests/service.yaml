@@ -5,13 +5,11 @@ metadata:
   labels:
     app: flask
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
-  - port: 7999
+  - port: 80
     targetPort: 8000
     protocol: TCP
+    nodePort: 30007
   selector:
     app: flask
-status:
-  ingress:
-  - ip: 35.207.142.40
