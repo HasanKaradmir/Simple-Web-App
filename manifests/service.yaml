@@ -6,10 +6,12 @@ metadata:
     app: flask
 spec:
   type: LoadBalancer
-  loadBalancerIP: 35.207.142.40
   ports:
   - port: 7999
     targetPort: 8000
     protocol: TCP
   selector:
     app: flask
+status:
+  ingress:
+  - ip: 35.207.142.40
