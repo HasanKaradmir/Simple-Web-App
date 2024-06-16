@@ -14,7 +14,6 @@ pipeline {
         stage('Clean Workspace') {
             steps {
                 cleanWs()
-                sh 'docker rmi -f $(docker images -aq)'
             }
         }
         stage('Git Checkout') {
@@ -47,6 +46,9 @@ pipeline {
         }
     }
     post {
+        always {
+            sh 'docker rmi -f $(docker images -aq)'
+        }
         success {
             emailext body: 'Başarılı!!', subject: 'Success Simple Web App Pipeline', to: 'info@hasankaradmir.com'
         }
