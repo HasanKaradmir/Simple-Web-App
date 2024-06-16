@@ -46,4 +46,12 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            emailext body: 'Başarılı!!', subject: 'Success Simple Web App Pipeline', to: 'info@hasankaradmir.com'
+        }
+        failure {
+            emailext body: 'Başarısız!!', subject: 'Failed Simple Web App Pipeline', to: 'info@hasankaradmir.com'
+        }
+    }
 }
