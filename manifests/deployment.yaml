@@ -4,7 +4,7 @@ metadata:
   name: simple-webapp
   namespace: simple-webapp
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
       app: flask
