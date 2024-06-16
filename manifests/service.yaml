@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: simple-webapp-service
+  namespace: simple-webapp
   labels:
     app: flask
 spec:
