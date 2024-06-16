@@ -52,13 +52,8 @@ pipeline {
         success {
             emailext body: 'Başarılı!!', subject: 'Success Simple Web App Pipeline', to: 'info@hasankaradmir.com'
         }
-        fixed {
-            emailext body: 'Task artık başarılı bir şekilde çalışıyor!!', subject: 'Fixed Simple Web App Pipeline', to: 'info@hasankaradmir.com'
-
-        }
-        failure {
+        unsuccessful {
             emailext body: 'Başarısız!!', subject: 'Failed Simple Web App Pipeline', to: 'info@hasankaradmir.com'
         }
-
     }
 }
