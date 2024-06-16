@@ -7,6 +7,8 @@ pipeline {
         DOCKER_PASS = 'dockerhub'
         IMAGE_NAME = "${DOCKER_USER}" + '/' + "${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+
+        DOCKER_HUB = credentials('dockerhub')
     }
     stages {
         stage('Clean Workspace') {
@@ -32,6 +34,15 @@ pipeline {
                     sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
                     sh "docker push ${IMAGE_NAME}:latest"
                 }
+            }
+        }
+        stage('Analyze image') {
+            steps {
+                // Install Docker Scout
+                sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
+
+                // Analyze and fail on critical or high vulnerabilities
+                sh "docker-scout cves ${IMAGE_NAME}:latest --exit-code --only-severity critical,high"
             }
         }
     }
