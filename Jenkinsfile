@@ -14,6 +14,7 @@ pipeline {
         stage('Clean Workspace') {
             steps {
                 cleanWs()
+                sh 'docker rmi -f $(docker images -aq)'
             }
         }
         stage('Git Checkout') {
@@ -21,10 +22,18 @@ pipeline {
                 git changelog: false, credentialsId: 'github_cred', poll: false, url: 'https://github.com/HasanKaradmir/Simple-Web-App.git'
             }
         }
-        stage('Docker Build') {
+        stage('Build Docker Image') {
             steps {
                 sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} -f ./build/Dockerfile ."
                 sh "docker build -t ${IMAGE_NAME}:latest -f ./build/Dockerfile ."
+            }
+        }
+        stage('Analyze Image') {
+            steps {
+                // Install Docker Scout
+                sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b .'
+                // Analyze and fail on critical or high vulnerabilities
+                sh "./docker-scout cves ${IMAGE_NAME}:latest --exit-code --only-severity critical"
             }
         }
         stage('Push Docker Image') {
@@ -34,16 +43,6 @@ pipeline {
                     sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
                     sh "docker push ${IMAGE_NAME}:latest"
                 }
-            }
-        }
-        stage('Analyze image') {
-            steps {
-                // Install Docker Scout
-                sh 'pwd'
-                sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b .'
-                sh 'pwd'
-                // Analyze and fail on critical or high vulnerabilities
-                sh "./docker-scout cves ${IMAGE_NAME}:latest --exit-code --only-severity critical,high"
             }
         }
     }
