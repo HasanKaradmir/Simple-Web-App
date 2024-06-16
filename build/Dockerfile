@@ -24,7 +24,8 @@ WORKDIR /app
 # Copy requirements.txt and install dependencies
 COPY --from=build /app/requirements.txt ./
 RUN apk add --no-cache \
-        su-exec \
+    su-exec \
+    && pip install --upgrade pip && \
     && pip install --no-cache-dir -r requirements.txt \
     && rm -rf /root/.cache \
     && rm /app/requirements.txt

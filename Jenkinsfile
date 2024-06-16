@@ -39,7 +39,7 @@ pipeline {
         stage('Analyze image') {
             steps {
                 // Install Docker Scout
-                sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
+                sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /bin'
 
                 // Analyze and fail on critical or high vulnerabilities
                 sh "docker-scout cves ${IMAGE_NAME}:latest --exit-code --only-severity critical,high"
