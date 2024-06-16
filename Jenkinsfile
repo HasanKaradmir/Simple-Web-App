@@ -47,7 +47,7 @@ pipeline {
     }
     post {
         always {
-            sh 'docker rmi $(docker images -aq)'
+            sh 'docker rmi $(docker images -aq) || true'
         }
         success {
             emailext body: 'Başarılı!!', subject: 'Success Simple Web App Pipeline', to: 'info@hasankaradmir.com'
