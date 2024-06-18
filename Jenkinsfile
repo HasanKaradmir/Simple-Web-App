@@ -44,6 +44,11 @@ pipeline {
                 }
             }
         }
+        stage('Build Helm Package') {
+            steps {
+                sh 'pwd'
+            }
+        }
     }
     post {
         always {
