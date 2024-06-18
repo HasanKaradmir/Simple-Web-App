@@ -47,6 +47,8 @@ pipeline {
         stage('Build Helm Package') {
             steps {
                 sh 'pwd'
+                sh 'ls'
+                sh 'tree'
             }
         }
     }
