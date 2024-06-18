@@ -47,7 +47,7 @@ pipeline {
         stage('Build Helm Package') {
             steps {
                 sh """#!/bin/bash
-                    sed -i 's/version: [0-9]\+\.[0-9]\+\.[0-9]\+/version: ${IMAGE_TAG}/' ./simple-webapp-helm/Chart.yaml
+                    sh 'sed -i \'s/version: [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+/version: ${IMAGE_TAG}/\' ./simple-webapp-helm/Chart.yaml'
                 """
                 sh 'cat ./simple-webapp-helm/Chart.yaml'
             }
