@@ -14,8 +14,7 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-podAnnotations: 
-  simple-webapp-pods
+podAnnotations: {}
 podLabels:
   project: simple-webapp
   app: flask
