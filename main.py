@@ -12,7 +12,7 @@ def index():
     else:
         # X-Forwarded-For başlığı yoksa, request.remote_addr kullanın
         user_ip = request.remote_addr
-    return f'Sizin IP adresiniz: {user_ip}a'
+    return f'Sizin IP adresiniz: {user_ip}'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)
