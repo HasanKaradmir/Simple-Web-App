@@ -8,7 +8,7 @@ image:
   repository: hasankarademir/simple-web-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: ""
@@ -57,11 +57,11 @@ resources:
 livenessProbe:
   httpGet:
     path: /
-    port: http
+    port: 8000
 readinessProbe:
   httpGet:
     path: /
-    port: http
+    port: 8000
 
 autoscaling:
   enabled: false
