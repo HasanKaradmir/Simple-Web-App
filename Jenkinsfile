@@ -59,11 +59,6 @@ pipeline {
                 sed -i \'s/version: [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+/version: ${IMAGE_TAG}/\' ./simple-webapp-helm/Chart.yaml
                 helm package simple-webapp-helm
                 helm push simple-webapp-helm-${IMAGE_TAG}.tgz oci://registry-1.docker.io/hasankarademir
-
-                # Latest Stage
-                sed -i \'s/version: [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+/version: latest/\' ./simple-webapp-helm/Chart.yaml
-                helm package simple-webapp-helm
-                helm push simple-webapp-helm-latest.tgz oci://registry-1.docker.io/hasankarademir
                 """
             }
         }
