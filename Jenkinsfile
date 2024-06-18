@@ -47,8 +47,24 @@ pipeline {
         stage('Build Helm Package') {
             steps {
                 sh 'tree'
-                sh 'sed -i \'s/version: [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+/version: 0.5.5/\' ./simple-webapp-helm/Chart.yaml'
+                sh "sed -i \'s/version: [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+/version: ${IMAGE_TAG}/\' ./simple-webapp-helm/Chart.yaml"
+                sh 'helm package simple-webapp-helm'
+                sh "sed -i \'s/version: [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+/version: latest/\' ./simple-webapp-helm/Chart.yaml"
+                sh 'helm package simple-webapp-helm'
+
                 sh 'cat ./simple-webapp-helm/Chart.yaml'
+                sh """
+                #!/bin/bash
+                # Version Stage
+                sed -i \'s/version: [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+/version: ${IMAGE_TAG}/\' ./simple-webapp-helm/Chart.yaml
+                helm package simple-webapp-helm
+                helm push simple-webapp-helm-${IMAGE_TAG}.tgz oci://registry-1.docker.io/hasankarademir
+
+                # Latest Stage
+                sed -i \'s/version: [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+/version: latest/\' ./simple-webapp-helm/Chart.yaml
+                helm package simple-webapp-helm
+                helm push simple-webapp-helm-latest.tgz oci://registry-1.docker.io/hasankarademir
+                """
             }
         }
     }
