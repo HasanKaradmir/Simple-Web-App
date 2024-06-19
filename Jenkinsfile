@@ -29,6 +29,7 @@ pipeline {
                     $SCANNER_HOME/bin/sonar-scanner \
                     -Dsonar.projectKey=simple-webapp \
                     -Dsonar.projectName=simple-webapp \
+                    -Dsonar.sources=.
                    '''
                 }
             }
