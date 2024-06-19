@@ -28,9 +28,8 @@ pipeline {
                     sh '''
                     $SCANNER_HOME/bin/sonar-scanner \
                     -Dsonar.projectKey=simple-webapp \
-                    -Dsonar.sources=. \
-                    -Dsonar.host.url=http://sonarqube.hasankaradmir.com \
-                    -Dsonar.login=4f67c452686d06f8b254f0f8e3ac3c3169fad861'''
+                    -Dsonar.projectName=simple-webapp \
+                   '''
                 }
             }
         }
