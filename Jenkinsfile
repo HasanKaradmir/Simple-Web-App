@@ -1,6 +1,7 @@
 pipeline {
     agent any
     environment {
+        SCANNER_HOME = tool 'sonar-scanner'
         APP_NAME = 'simple-web-app'
         RELEASE = '1.0.0'
         DOCKER_USER = 'hasankarademir'
@@ -19,6 +20,25 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 git changelog: false, credentialsId: 'github_cred', poll: false, url: 'https://github.com/HasanKaradmir/Simple-Web-App.git'
+            }
+        }
+        stage('Sonarqube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube-Server') {
+                    sh '''
+                    sonar-scanner \
+                    -Dsonar.projectKey=simple-webapp \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=http://sonarqube.hasankaradmir.com \
+                    -Dsonar.login=4f67c452686d06f8b254f0f8e3ac3c3169fad861'''
+                }
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'SonarQube-Token'
+                }
             }
         }
         stage('Build Docker Image') {
