@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Sonarqube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube-Server') {
+                withSonarQubeEnv('SonarQube-Token') {
                     sh '''
                     $SCANNER_HOME/bin/sonar-scanner \
                     -Dsonar.projectKey=simple-webapp \
