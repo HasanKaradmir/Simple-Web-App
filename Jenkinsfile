@@ -31,7 +31,7 @@ pipeline {
                     sh '''
                     $SCANNER_HOME/bin/sonar-scanner \
                     -Dsonar.projectKey=simple-webapp \
-                    -Dsonar.sources=. \
+                    -Dsonar.sources=./main.py \
                     -Dsonar.host.url=http://localhost:9000 \
                     -Dsonar.login=4f67c452686d06f8b254f0f8e3ac3c3169fad861
                    '''
