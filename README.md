@@ -1,4 +1,4 @@
-# Simple Web Application
+# Simple Web Application (https://simple-webapp.hasankaradmir.com/)
 
 Bu proje, Python kullanılarak geliştirilmiş basit bir web uygulamasını içermektedir. Proje, Docker kullanarak containerize edilmiştir ve RKE2 üzerinde çalışan bir Kubernetes cluster'ına deploy edilmiştir. Jenkins ile CI/CD pipeline'ı oluşturulmuş ve ArgoCD ile continuous deployment sağlanmıştır.
 
