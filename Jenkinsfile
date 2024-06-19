@@ -26,7 +26,7 @@ pipeline {
                 script {
                     // Python ortamını kur ve gerekli paketleri yükle
                     sh 'python3 -m venv venv'
-                    sh '. venv/bin/activate && pip install pylint flake8'
+                    sh '. venv/bin/activate && pip install pylint flake8 ruff'
                     // Pylint ve Flake8 konfigürasyon dosyalarını oluştur
                     writeFile file: '.pylintrc', text: '''
 [MESSAGES CONTROL]
@@ -52,9 +52,10 @@ exclude =
             steps {
                 script {
                     // pylint ile kod kalitesini kontrol et
-                    sh '. venv/bin/activate && pylint **/*.py'
+                    sh '. venv/bin/activate && ruff check **/*.py'
+                    // sh '. venv/bin/activate && pylint **/*.py'
                     // flake8 ile kod kalitesini kontrol et
-                    sh '. venv/bin/activate && flake8 .'
+                    // sh '. venv/bin/activate && flake8 .'
                 }
             }
         }
