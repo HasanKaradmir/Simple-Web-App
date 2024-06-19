@@ -25,23 +25,22 @@ pipeline {
                 git changelog: false, credentialsId: 'github_cred', poll: false, url: 'https://github.com/HasanKaradmir/Simple-Web-App.git'
             }
         }
-        stage('Sonarqube Analysis') {
+        stage('Setup') {
             steps {
-                withSonarQubeEnv('SonarQube-Server') {
-                    sh '''
-                    $SCANNER_HOME/bin/sonar-scanner -X \
-                    -Dsonar.projectKey=simple-webapp \
-                    -Dsonar.sources=. \
-                    -Dsonar.host.url=http://localhost:9000 \
-                    -Dsonar.login=4f67c452686d06f8b254f0f8e3ac3c3169fad861
-                   '''
+                script {
+                    // Python ortamını kur ve gerekli paketleri yükle
+                    sh 'python3 -m venv venv'
+                    sh '. venv/bin/activate && pip install pylint flake8'
                 }
             }
         }
-        stage('Quality Gate') {
+        stage('Linting') {
             steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'SonarQube-Token'
+                    // pylint ile kod kalitesini kontrol et
+                    sh '. venv/bin/activate && pylint **/*.py'
+                    // flake8 ile kod kalitesini kontrol et
+                    sh '. venv/bin/activate && flake8 .'
                 }
             }
         }
