@@ -52,7 +52,7 @@ exclude =
             steps {
                 script {
                     // pylint ile kod kalitesini kontrol et
-                    sh 'tree'
+                    sh 'ls ..'
                     sh '. venv/bin/activate && ruff check ./Simple-Web-App/*.py'
                     // sh '. venv/bin/activate && pylint **/*.py'
                     // flake8 ile kod kalitesini kontrol et
