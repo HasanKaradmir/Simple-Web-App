@@ -29,9 +29,9 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube-Server') {
                     sh '''
-                    $SCANNER_HOME/bin/sonar-scanner \
+                    $SCANNER_HOME/bin/sonar-scanner -X \
                     -Dsonar.projectKey=simple-webapp \
-                    -Dsonar.sources=./main.py \
+                    -Dsonar.sources=. \
                     -Dsonar.host.url=http://localhost:9000 \
                     -Dsonar.login=4f67c452686d06f8b254f0f8e3ac3c3169fad861
                    '''
