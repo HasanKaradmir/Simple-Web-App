@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     // Python ortamını kur ve gerekli paketleri yükle
-                    sh 'python3 -m venv venv'
+                    sh 'apt install python3.10-venv'
                     sh '. venv/bin/activate && pip install pylint flake8'
                 }
             }
