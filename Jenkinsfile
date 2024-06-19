@@ -38,7 +38,7 @@ good-names=i,j,k,ex,Run,_
 [flake8]
 ignore = E203, E266, E501, W503, F403, F401
 max-line-length = 88
-exclude = 
+exclude =
     .git,
     __pycache__,
     old,
@@ -53,10 +53,10 @@ exclude =
                 script {
                     // pylint ile kod kalitesini kontrol et
                     sh 'ls'
-                    sh '. venv/bin/activate && ruff check *.py'
-                    // sh '. venv/bin/activate && pylint **/*.py'
-                    // flake8 ile kod kalitesini kontrol et
-                    // sh '. venv/bin/activate && flake8 .'
+                    sh '. venv/bin/activate && ruff check *.py --output ruff_report.txt'
+                // sh '. venv/bin/activate && pylint **/*.py'
+                // flake8 ile kod kalitesini kontrol et
+                // sh '. venv/bin/activate && flake8 .'
                 }
             }
         }
@@ -98,12 +98,13 @@ exclude =
     post {
         always {
             sh 'docker rmi -f $(docker images -aq) || true'
-        }
-        success {
-            emailext body: 'Başarılı!!', subject: 'Success Simple Web App Pipeline', to: 'info@hasankaradmir.com'
-        }
-        unsuccessful {
-            emailext body: 'Başarısız!!', subject: 'Failed Simple Web App Pipeline', to: 'info@hasankaradmir.com'
+            emailext attachLog: true,
+            body: "Project: ${env.JOB_NAME}<br/>" +
+                "Build Number: ${env.BUILD_NUMBER}<br/>" +
+                "URL: ${env.BUILD_URL}<br/>",
+            subject: "'${currentBuild.result}'",
+            to: 'info@hasankaradmir.com',
+            attachmentsPattern: 'ruff_report.txt'
         }
     }
 }
