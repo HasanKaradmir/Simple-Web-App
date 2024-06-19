@@ -1,10 +1,6 @@
 pipeline {
     agent any
-    tools {
-        jdk 'jdk17'
-    }
     environment {
-        SCANNER_HOME = tool 'sonar-scanner'
         APP_NAME = 'simple-web-app'
         RELEASE = '1.0.0'
         DOCKER_USER = 'hasankarademir'
@@ -31,6 +27,24 @@ pipeline {
                     // Python ortamını kur ve gerekli paketleri yükle
                     sh 'python3 -m venv venv'
                     sh '. venv/bin/activate && pip install pylint flake8'
+                    // Pylint ve Flake8 konfigürasyon dosyalarını oluştur
+                    writeFile file: '.pylintrc', text: '''
+[MESSAGES CONTROL]
+disable=C0114,C0115,C0116
+[BASIC]
+good-names=i,j,k,ex,Run,_
+                    '''
+                    writeFile file: '.flake8', text: '''
+[flake8]
+ignore = E203, E266, E501, W503, F403, F401
+max-line-length = 88
+exclude = 
+    .git,
+    __pycache__,
+    old,
+    build,
+    dist
+                    '''
                 }
             }
         }
