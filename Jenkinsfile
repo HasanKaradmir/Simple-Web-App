@@ -46,13 +46,11 @@ pipeline {
         }
         stage('Build Helm Package') {
             steps {
-                sh 'tree'
-                sh 'cat ./simple-webapp-helm/Chart.yaml'
                 sh """
                 #!/bin/bash
                 # Version Stage
-                sed -i \'s/version: [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+/version: ${IMAGE_TAG}/\' ./simple-webapp-helm/Chart.yaml
-                helm package simple-webapp-helm
+                sed -i \'s/version: [0-9]\\+\\.[0-9]\\+\\.[0-9]\\+/version: ${IMAGE_TAG}/\' ./k8s/simple-webapp-helm/Chart.yaml
+                helm package ./k8s/simple-webapp-helm
                 helm push simple-webapp-helm-${IMAGE_TAG}.tgz oci://registry-1.docker.io/hasankarademir
                 """
             }
