@@ -26,7 +26,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube-Server') {
                     sh '''
-                    sonar-scanner \
+                    $SCANNER_HOME/bin/sonar-scanner \
                     -Dsonar.projectKey=simple-webapp \
                     -Dsonar.sources=. \
                     -Dsonar.host.url=http://sonarqube.hasankaradmir.com \
